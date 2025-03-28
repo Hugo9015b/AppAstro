@@ -5,7 +5,13 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="auto" />
-      <Stack>
+      <Stack screenOptions={{
+        animation: "fade",
+      }}>
+        <Stack.Screen name="index" options={{
+          headerShown: false,
+          headerLeft: () => <></>
+        }} />
         <Stack.Screen name="(tabs)" options={{
           headerShown: false,
           headerLeft: () => <></>

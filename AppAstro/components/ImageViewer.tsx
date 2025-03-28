@@ -1,19 +1,28 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, StyleProp, ImageStyle } from "react-native";
 import { Image, type ImageSource } from "expo-image";
 
 type Props = {
-    imgSource: ImageSource
+    imgSource: ImageSource;
+    style?: StyleProp<ImageStyle>;
+    width?: number;
+    height?: number;
 }
 
-export default function ImageViewer({ imgSource }: Props) {
-    return <Image source={imgSource} style={styles.image} contentFit="contain"/>;
+const { width } = Dimensions.get("screen");
+const _imageWidth = width * 0.7;
+const _imageHeight = _imageWidth * 1.76;
+
+export default function ImageViewer({ imgSource, style, width, height }: Props) {
+    return <Image source={imgSource} style={[
+        styles.image,
+        { width: width ?? _imageWidth, height: height ?? _imageHeight },
+        style,
+    ]} />;
 }
 
 const styles = StyleSheet.create({
     image: {
-        width: '100%',
-        height: '100%',
-        maxWidth: 600,
         borderRadius: 18,
+        margin: '10%'
     }
 });
