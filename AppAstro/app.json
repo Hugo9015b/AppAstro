@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/constellation.png",
-    "backgroundColor": "#ffffff",
+    "backgroundColor": "#27445D",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,25 +14,25 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/constellation.png",
+        "backgroundColor": "#27445D"
       },
       "package": "com.slyon.AppAstro"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/constellation.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "contentFit": "contain",
-          "backgroundColor": "#ffffff"
+          "image": "./assets/images/constellation.png",
+          "imageWidth": "100%",
+          "contentFit": "cover",
+          "backgroundColor": "#27445D"
         }
       ]
     ],
