@@ -5,11 +5,22 @@ import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import ButtonViewer from "@/components/ButtonViewer";
 import CustomSlider from "@/components/CustomSlider";
+import { auth } from "@/firebase";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
 
 export default function progressScreen() {
   const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+      // replace so they can't go back
+      router.replace("/login");
+    } catch (e) {
+      console.error("Sign out failed:", e);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -19,9 +30,20 @@ export default function progressScreen() {
         <ScrollView style={styles.infoTextContainer} contentContainerStyle={styles.infoTextContent}>
           <CustomSlider label="Volume" />
           <CustomSlider label="Brightness" />
+          <ButtonViewer
+            label="Sign Out"
+            theme="primary"
+            style={{ height: "100%" }}
+            onPress={handleSignOut}
+          />
         </ScrollView>
         <View style={styles.homeContainer}>
-          <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
+          <ButtonViewer
+            label="Home"
+            theme="circle"
+            circleIcon="home-sharp"
+            onPress={() => router.navigate("/")}
+          />
         </View>
       </View>
     </View>
@@ -69,7 +91,8 @@ const styles = StyleSheet.create({
   },
   infoTextContent: {
     padding: "6%",
-    alignItems: 'center',
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
   infoText: {
     textAlign: 'center',

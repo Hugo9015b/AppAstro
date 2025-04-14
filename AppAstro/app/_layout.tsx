@@ -10,7 +10,7 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import FlashMessage from "react-native-flash-message";
-import { AuthProvider } from '@/hooks/AuthContext';
+import { AuthProvider } from '@/hooks/authContext';
 
 // IMPORT from your firebase.ts
 import {
@@ -18,8 +18,14 @@ import {
   onAuthStateChanged,
   type User,
 } from '@/firebase';
+import { useInitializeUserProgress } from "@/hooks/useInitializeUserProgress";
 
 const backgroundImage = require('@/assets/images/title-background.jpg');
+
+function InitializeUserProgressWrapper() {
+  useInitializeUserProgress();
+  return null; // it doesn’t render anything
+}
 
 export default function RootLayout() {
   const [initializing, setInitializing] = useState(true);
@@ -64,6 +70,7 @@ export default function RootLayout() {
           style={styles.background}
         >
           <FlashMessage position="top" />
+          {user != null && <InitializeUserProgressWrapper />}
           <Stack screenOptions={{
             animation: "fade",
             headerShown: false,

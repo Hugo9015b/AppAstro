@@ -6,7 +6,7 @@ import { Colors } from '@/constants/Colors';
 import ButtonViewer from "@/components/ButtonViewer";
 import CustomProgressBar from "@/components/CustomProgressBar";
 //import CustomProgressBarV2 from "@/components/CustomProgressBarV2";
-import { useAuth } from '@/hooks/AuthContext';
+import { useAuth } from '@/hooks/authContext';
 import { db } from '@/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -52,7 +52,7 @@ export default function progressScreen() {
     );
   }
 
-  if (progressData) {
+  if (!progressData) {
     return (
       <View style={styles.center}>
         <Text style={styles.message}>No progress yet.</Text>
@@ -66,10 +66,10 @@ export default function progressScreen() {
       <View style={styles.infoContainer}>
         <Text style={styles.titleText}>Progress</Text>
         <ScrollView style={styles.infoTextContainer} contentContainerStyle={styles.infoTextContent}>
-          <CustomProgressBar label={"Constelaciones"} progress={progress}/>
-          <CustomProgressBar label={"Estrellas"} progress={0.7}/>
-          <CustomProgressBar label={"Nebulosas"} progress={0}/>
-          <CustomProgressBar label={"Galaxias"} progress={0}/>
+          <CustomProgressBar label={"Constelaciones"} progress={progressData.constellations}/>
+          <CustomProgressBar label={"Estrellas"} progress={progressData.stars}/>
+          <CustomProgressBar label={"Nebulosas"} progress={progressData.nebulas}/>
+          <CustomProgressBar label={"Galaxias"} progress={progressData.galaxies}/>
         </ScrollView>
         <View style={styles.homeContainer}>
           <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />

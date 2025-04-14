@@ -4,14 +4,14 @@ import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import ButtonViewer from "@/components/ButtonViewer";
-import RangeSlider from "@/components/RangeSlider";
 import { useState } from "react";
+import LevelRangeSlider from "@/components/LevelRangeSlider";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
 
 export default function MenuConstellationsScreen() {
   const router = useRouter();
-  const [selectedLevel, setSelectedLevel] = useState(1);
+  const [[minLevel, maxLevel], setLevels] = useState<[number, number]>([1, 88]);
 
   return (
     <View style={styles.container}>
@@ -19,20 +19,30 @@ export default function MenuConstellationsScreen() {
       <View style={styles.infoContainer}>
         <Text style={styles.titleText}>Constellations</Text>
         <View style={styles.levelsContainer}>
-          <Text style={styles.titleTextBoxes}>Niveles</Text>
-          <RangeSlider label="Levels" min={1} max={88} onValueChange={setSelectedLevel} />
+          <Text style={styles.titleTextBoxes}>Levels</Text>
+          <LevelRangeSlider
+            label="Levels"
+            min={1}
+            max={88}
+            values={[minLevel, maxLevel]}
+            onValuesChange={setLevels}
+          />
         </View>
         <View style={styles.modesContainer}>
-          <Text style={styles.titleTextBoxes}>Modo</Text>
+          <Text style={styles.titleTextBoxes}>Mode</Text>
           <ButtonViewer
             label="Easy"
             theme="primary"
-            onPress={() => router.push(`/constellations/easyConstellations?level=${selectedLevel}`)}
+            onPress={() =>
+              router.push(`/constellations/easyConstellations?min=${minLevel}&max=${maxLevel}`
+              )}
           />
           <ButtonViewer
             label="Hard"
             theme="primary"
-            onPress={() => router.push(`/constellations/hardConstellations?level=${selectedLevel}`)}
+            onPress={() =>
+              router.push(`/constellations/hardConstellations?min=${minLevel}&max=${maxLevel}`
+              )}
           />
         </View>
         <View style={styles.homeContainer}>

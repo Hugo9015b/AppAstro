@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Modal } from "react-native";
+import { View, Text, StyleSheet, Modal, ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { ImageSource } from "expo-image"
@@ -6,480 +6,40 @@ import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import ButtonViewer from "@/components/ButtonViewer";
+import { useQuizData } from "@/hooks/useQuizData";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
 const QuizImage: ImageSource = require("@/assets/images/constellation.png");
 
-const quizData = [
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Scorpius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Ursa Major"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Cassiopeia"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Orion"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Lyra"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
-        correct: "Andromeda"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Aquarius", "Pisces", "Leo", "Capricorn"],
-        correct: "Aquarius"
-    },
-    {
-        image: require("@/assets/images/constellation.png"),
-        options: ["Orion", "Cassiopeia", "Lyra", "Scorpius"],
-        correct: "Cassiopeia"
-    },
-];
-
 export default function EasyConstellationsScreen() {
-    const { level } = useLocalSearchParams();
+    const { min = "1", max = "1" } = useLocalSearchParams();
+    const minLevel = Number(min);
+    const maxLevel = Number(max);
     const router = useRouter();
-    const maxQuestions = Number(level);
+
+    const { data: quizData, loading } = useQuizData();
+
+    const maxQuestions = maxLevel - minLevel + 1;
     const [questionIndex, setQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [quizFinished, setQuizFinished] = useState(false);
 
-    const currentQuestion = quizData[questionIndex % maxQuestions];
+    if (loading) {
+        return <ActivityIndicator style={{ flex: 1 }} size={80} />;
+    }
+
+    const slice = quizData.slice(minLevel - 1, minLevel - 1 + maxQuestions);
+    const currentQuestion = slice[questionIndex % slice.length];
 
     const handleAnswer = (option: string) => {
-        if (option === currentQuestion.correct) {
-            setSelectedOption(option);
-            setTimeout(() => {
-                if (questionIndex + 1 >= maxQuestions) {
-                    setQuizFinished(true);
-                } else {
-                    setSelectedOption(null);
-                    setQuestionIndex(prev => prev + 1);
-                }
-            }, 1000);
-        } else {
-            setSelectedOption(option);
-            setTimeout(() => {
-                setSelectedOption(null);
-            }, 1000);
-        }
+        setSelectedOption(option);
+        setTimeout(() => {
+            if (option === currentQuestion.correct) {
+                if (questionIndex + 1 >= maxQuestions) return setQuizFinished(true);
+                setQuestionIndex(question => question + 1);
+            }
+            setSelectedOption(null);
+        }, 1000);
     };
 
     return (
@@ -487,7 +47,7 @@ export default function EasyConstellationsScreen() {
             <ImageViewer imgSource={BackgroundImage} style={styles.imageBackground} />
             <View style={styles.infoContainer}>
                 <Text style={styles.titleText}>Easy Constellations</Text>
-                <Text style={styles.titleTextBoxes}>From 1 up to {level} constellations</Text>
+                <Text style={styles.titleTextBoxes}>From {minLevel} up to {maxLevel} constellations</Text>
                 <View style={styles.quizContainer}>
                     <ImageViewer imgSource={QuizImage} style={styles.quizImage} imageMode="cover" />
                     <View style={styles.buttonsContainer}>
@@ -523,7 +83,7 @@ export default function EasyConstellationsScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Quiz Finished</Text>
-                        <Text style={styles.modalMessage}>You have completed {level} questions!</Text>
+                        <Text style={styles.modalMessage}>You have completed {maxQuestions} questions!</Text>
                         <ButtonViewer
                             label="Restart"
                             theme="primary"
