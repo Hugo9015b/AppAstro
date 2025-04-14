@@ -21,15 +21,22 @@ export default function TextViewer({
     style,
     textStyle,
 }: Props) {
-    if (theme === 'primary') {
-        return <View style={[styles.titleContainer, style]}>
-            <Text style={[styles.primaryLabel, styles.label, textStyle]}>{label}</Text>
+    return (
+        <View style={[
+            styles.titleContainer,
+            style
+        ]}>
+            <Text style={[
+                theme === 'primary'
+                ? styles.primaryLabel
+                : styles.secondaryLabel,
+                styles.label,
+                textStyle
+            ]}>
+                {label}
+            </Text>
         </View>
-    } else if (theme === 'secondary') {
-        return <View style={styles.titleContainer}>
-            <Text style={[styles.secondaryLabel, styles.label, textStyle]}>{label}</Text>
-        </View>
-    }
+    );
 }
 
 const styles = StyleSheet.create({
@@ -38,15 +45,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: "100%",
+        borderRadius: 10,
     },
     label: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
         textAlignVertical: 'center',
+        borderRadius: 10,
+        padding: 10,
     },
     primaryLabel: {
-        backgroundColor: Colors.dark.lightYellow,
+        backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
         color: Colors.dark.darkBlue,
     },
     secondaryLabel: {

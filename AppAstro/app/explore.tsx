@@ -1,8 +1,9 @@
 import { View, StyleSheet, Dimensions } from "react-native";
 import { ImageSource } from "expo-image"
 import ImageViewer from "@/components/ImageViewer";
-import Button from "@/components/Button";
+import ButtonViewer from "@/components/ButtonViewer";
 import { useRouter } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
 const Logo: ImageSource = require('@/assets/images/title_text.png')
@@ -15,7 +16,7 @@ export default function ExploreScreen() {
             <ImageViewer imgSource={BackgroundImage} style={styles.imageBackground}/>
             <ImageViewer imgSource={Logo} style={styles.logo} imageMode="contain"/>
             <View style={styles.buttonContainer}>
-                <Button label="Explore the App" theme="primary" onPress={() => router.navigate("/(tabs)/quizzes")} />
+                <ButtonViewer label="Explore the App" theme="primary" onPress={() => router.navigate("/(tabs)/quizzes")} />
             </View>
         </View>
     );
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: "#27445D",
+        backgroundColor: Colors.dark.darkBlue,
     },
     buttonContainer: {
         flex: 0.6,

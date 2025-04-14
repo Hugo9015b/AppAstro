@@ -3,7 +3,7 @@ import { ImageSource } from "expo-image"
 import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import Button from "@/components/Button";
+import ButtonViewer from "@/components/ButtonViewer";
 import CustomSlider from "@/components/CustomSlider";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
@@ -21,7 +21,7 @@ export default function progressScreen() {
           <CustomSlider label="Brightness" />
         </ScrollView>
         <View style={styles.homeContainer}>
-          <Button label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
+          <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
         </View>
       </View>
     </View>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
     textAlignVertical: 'center',
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     color: Colors.dark.darkBlue,
     padding: "2%",
   },

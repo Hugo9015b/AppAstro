@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet, Modal, Pressable } from "react-native";
+import { View, Text, StyleSheet, Modal } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { ImageSource } from "expo-image"
 import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import Button from "@/components/Button";
+import ButtonViewer from "@/components/ButtonViewer";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
 const QuizImage: ImageSource = require("@/assets/images/constellation.png");
@@ -492,7 +492,7 @@ export default function EasyConstellationsScreen() {
                     <ImageViewer imgSource={QuizImage} style={styles.quizImage} imageMode="cover" />
                     <View style={styles.buttonsContainer}>
                         {currentQuestion.options.map((option) => (
-                            <Button
+                            <ButtonViewer
                                 key={option}
                                 label={option}
                                 theme="primary"
@@ -503,15 +503,15 @@ export default function EasyConstellationsScreen() {
                                             ? "green"
                                             : option === selectedOption
                                                 ? "red"
-                                                : Colors.dark.lightYellowRGBA
-                                        : Colors.dark.lightYellowRGBA,
+                                                : Colors.dark.lightYellowRGBA_low_opacity
+                                        : Colors.dark.lightYellowRGBA_low_opacity,
                                 }}
                             />
                         ))}
                     </View>
                 </View>
                 <View style={styles.homeContainer}>
-                    <Button label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
+                    <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
                 </View>
             </View>
             <Modal
@@ -524,7 +524,7 @@ export default function EasyConstellationsScreen() {
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Quiz Finished</Text>
                         <Text style={styles.modalMessage}>You have completed {level} questions!</Text>
-                        <Button
+                        <ButtonViewer
                             label="Restart"
                             theme="primary"
                             onPress={() => {
@@ -533,7 +533,7 @@ export default function EasyConstellationsScreen() {
                                 setSelectedOption(null);
                             }}
                         />
-                        <Button
+                        <ButtonViewer
                             label="Go to Menu"
                             theme="primary"
                             onPress={() => {
@@ -628,7 +628,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalContent: {
-        flex: 1,
+        flex: 0.4,
         width: "80%",
         backgroundColor: "#fff",
         padding: 20,

@@ -3,15 +3,62 @@ import { ImageSource } from "expo-image"
 import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import Button from "@/components/Button";
-import * as Progress from 'react-native-progress';
+import ButtonViewer from "@/components/ButtonViewer";
 import CustomProgressBar from "@/components/CustomProgressBar";
+//import CustomProgressBarV2 from "@/components/CustomProgressBarV2";
+import { useAuth } from '@/hooks/AuthContext';
+import { db } from '@/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
-const progress = 0.5
+const progress = 0.4
 
 export default function progressScreen() {
   const router = useRouter();
+  const user = useAuth();
+
+  const [progressData, setProgressData] = useState<{
+    constellations: number;
+    stars: number;
+    nebulas: number;
+    galaxies: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const unsub = onSnapshot(
+      doc(db, 'progress', user.uid),
+      (snap) => {
+        if (snap.exists()) {
+          setProgressData(snap.data() as any);
+        } else {
+          setProgressData(null);
+        }
+      },
+      (err) => console.error(err)
+    );
+    return unsub;
+  }, [user]);
+
+  if (!user) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.message}>
+          To save progress and display it please log in.
+        </Text>
+      </View>
+    );
+  }
+
+  if (progressData) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.message}>No progress yet.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -20,12 +67,12 @@ export default function progressScreen() {
         <Text style={styles.titleText}>Progress</Text>
         <ScrollView style={styles.infoTextContainer} contentContainerStyle={styles.infoTextContent}>
           <CustomProgressBar label={"Constelaciones"} progress={progress}/>
-          <CustomProgressBar label={"Estrellas"} progress={0.1}/>
+          <CustomProgressBar label={"Estrellas"} progress={0.7}/>
           <CustomProgressBar label={"Nebulosas"} progress={0}/>
           <CustomProgressBar label={"Galaxias"} progress={0}/>
         </ScrollView>
         <View style={styles.homeContainer}>
-          <Button label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
+          <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
         </View>
       </View>
     </View>
@@ -33,6 +80,8 @@ export default function progressScreen() {
 }
 
 const styles = StyleSheet.create({
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  message: { color: '#000', fontSize: 18 },
   container: {
     flex: 1,
     backgroundColor: Colors.dark.darkBlue,
@@ -60,7 +109,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
     textAlignVertical: 'center',
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     color: Colors.dark.darkBlue,
     padding: "2%",
   },

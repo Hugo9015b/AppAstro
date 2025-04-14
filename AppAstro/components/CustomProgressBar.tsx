@@ -14,32 +14,30 @@ type Props = {
 
 export default function CustomProgressBar({ progress, label }: Props) {
     return (
-        <View style={styles.container}>
+        <>
             <Text style={styles.progressTitle}>{label}</Text>
-            <Progress.Bar
-                progress={progress}
-                width={_imageWidth}
-                height={_imageHeight}
-                color={Colors.dark.darkBlue}
-                unfilledColor={Colors.dark.lightYellow}
-                borderColor={Colors.dark.lightYellow}
-                borderRadius={10}
-                borderWidth={4}
-                style={styles.progressBar}
-            />
-            <Text style={styles.progressText}>{Math.round(progress * 100)}%</Text>
-        </View>
+            <View style={styles.container}>
+                <Progress.Bar
+                    progress={progress}
+                    width={_imageWidth}
+                    height={_imageHeight}
+                    color={Colors.dark.darkBlue}
+                    unfilledColor={Colors.dark.lightYellow}
+                    borderColor={Colors.dark.lightYellow}
+                    borderRadius={10}
+                    borderWidth={4}
+                />
+                <Text style={styles.progressText}>{Math.round(progress * 100)}%</Text>
+            </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.3,
+        flex: 1,
         alignSelf: 'center',
         alignItems: 'center',
-    },
-    progressBar: {
-        marginVertical: 10,
     },
     progressTitle: {
         alignSelf: 'flex-start',

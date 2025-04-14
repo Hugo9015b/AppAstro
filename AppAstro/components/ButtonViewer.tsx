@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -24,7 +25,7 @@ const { width } = Dimensions.get('screen');
 const circleSize = width * 0.2;
 const iconSize = width * 0.1
 
-export default function Button({
+export default function ButtonViewer({
   label,
   theme,
   onPress,
@@ -32,12 +33,22 @@ export default function Button({
   textStyle,
   circleIcon,
 }: Props) {
+  const [pressed, setPressed] = useState(false);
+
   if (theme === 'primary') {
     return (
       <View style={styles.buttonContainer}>
         <Pressable
-          style={[styles.button, styles.primaryButton, style]}
           onPress={onPress}
+          onPressIn={() => setPressed(true)}
+          onPressOut={() => setPressed(false)}
+          style={[
+            styles.button,
+            pressed
+              ? styles.primaryButtonPressed
+              : styles.primaryButton,
+            style
+          ]}
         >
           <Text style={[styles.buttonLabel, styles.primaryButtonLabel, textStyle]}>
             {label}
@@ -49,10 +60,18 @@ export default function Button({
     return (
       <View style={styles.buttonContainer}>
         <Pressable
-          style={[styles.button, styles.secondaryButton, style]}
           onPress={onPress}
+          onPressIn={() => setPressed(true)}
+          onPressOut={() => setPressed(false)}
+          style={[styles.button, style]}
         >
-          <Text style={[styles.buttonLabel, styles.secondaryButtonLabel, textStyle]}>
+          <Text style={[
+            styles.buttonLabel,
+            pressed
+            ? styles.secondaryButtonLabelPressed
+            : styles.secondaryButtonLabel,
+            textStyle
+          ]}>
             {label}
           </Text>
         </Pressable>
@@ -62,11 +81,23 @@ export default function Button({
     return (
       <View style={styles.buttonContainer}>
         <Pressable
-          style={[styles.button, styles.circleButton, style]}
           onPress={onPress}
+          onPressIn={() => setPressed(true)}
+          onPressOut={() => setPressed(false)}
           aria-label={label}
+          style={[
+            styles.button,
+            styles.circleButton,
+            { borderColor: Colors.dark.lightYellowRGBA_low_opacity },
+            pressed && { backgroundColor: Colors.dark.lightYellow, borderColor: Colors.dark.darkBlue },
+            style
+          ]}
         >
-          <Ionicons name={circleIcon ?? 'information-circle'} color={Colors.dark.lightYellowRGBA} size={iconSize} />
+          <Ionicons
+            name={circleIcon ?? 'information-circle'}
+            color={pressed ? Colors.dark.darkBlue : Colors.dark.lightYellowRGBA_low_opacity}
+            size={iconSize}
+          />
         </Pressable>
       </View>
     );
@@ -88,22 +119,28 @@ const styles = StyleSheet.create({
   primaryButton: {
     width: "100%",
     height: "60%",
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
+  },
+  primaryButtonPressed: {
+    width: '100%',
+    height: '60%',
+    backgroundColor: Colors.dark.lightYellow,
   },
   primaryButtonLabel: {
     color: Colors.dark.darkBlue,
   },
-  secondaryButton: {
-  },
   secondaryButtonLabel: {
     color: Colors.dark.lightYellow,
+    textDecorationLine: "underline",
+  },
+  secondaryButtonLabelPressed: {
+    color: Colors.dark.darkBlue,
     textDecorationLine: "underline",
   },
   circleButton: {
     width: circleSize,
     height: circleSize,
     borderRadius: circleSize / 2,
-    borderColor: Colors.dark.lightYellowRGBA,
     borderWidth: 10,
     alignItems: 'center',
     justifyContent: 'center',

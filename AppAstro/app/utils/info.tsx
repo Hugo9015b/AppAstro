@@ -3,7 +3,7 @@ import { ImageSource } from "expo-image"
 import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import Button from "@/components/Button";
+import ButtonViewer from "@/components/ButtonViewer";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
 
@@ -36,7 +36,7 @@ export default function InfoScreen() {
           </Text>
         </ScrollView>
         <View style={styles.homeContainer}>
-          <Button label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
+          <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
         </View>
       </View>
     </View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
     textAlignVertical: 'center',
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     color: Colors.dark.darkBlue,
     padding: "2%",
   },
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     width: "80%",
     marginVertical: "10%",
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     borderRadius: 8,
   },
   infoTextContent: {

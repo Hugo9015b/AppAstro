@@ -3,7 +3,7 @@ import { ImageSource } from "expo-image"
 import ImageViewer from "@/components/ImageViewer";
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
-import Button from "@/components/Button";
+import ButtonViewer from "@/components/ButtonViewer";
 import RangeSlider from "@/components/RangeSlider";
 import { useState } from "react";
 
@@ -24,19 +24,19 @@ export default function MenuConstellationsScreen() {
         </View>
         <View style={styles.modesContainer}>
           <Text style={styles.titleTextBoxes}>Modo</Text>
-          <Button
+          <ButtonViewer
             label="Easy"
             theme="primary"
             onPress={() => router.push(`/constellations/easyConstellations?level=${selectedLevel}`)}
           />
-          <Button
+          <ButtonViewer
             label="Hard"
             theme="primary"
             onPress={() => router.push(`/constellations/hardConstellations?level=${selectedLevel}`)}
           />
         </View>
         <View style={styles.homeContainer}>
-          <Button label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
+          <ButtonViewer label="Home" theme="circle" circleIcon="home-sharp" onPress={() => router.navigate("/")} />
         </View>
       </View>
     </View>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: 'center',
     textAlignVertical: 'center',
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     color: Colors.dark.darkBlue,
     padding: "2%",
   },
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     flex: 0.4,
     width: "80%",
     marginVertical: "4%",
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     borderRadius: 8,
     padding: "4%",
     alignItems: 'center',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   modesContainer: {
     flex: 0.4,
     width: "80%",
-    backgroundColor: Colors.dark.lightYellowRGBA,
+    backgroundColor: Colors.dark.lightYellowRGBA_low_opacity,
     borderRadius: 8,
     padding: "4%",
     alignItems: 'center',
