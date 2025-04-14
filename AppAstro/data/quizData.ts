@@ -5,7 +5,7 @@ export default [
         correct: "Scorpius"
     },
     {
-        image: require("@/assets/images/constellation.png"),
+        image: require("@/assets/images/constellations/ursa-major.jpg"),
         options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
         correct: "Ursa Major"
     },
@@ -20,7 +20,7 @@ export default [
         correct: "Cassiopeia"
     },
     {
-        image: require("@/assets/images/constellation.png"),
+        image: require("@/assets/images/constellations/andromeda.jpg"),
         options: ["Andromeda", "Pegasus", "Ursa Major", "Draco"],
         correct: "Andromeda"
     },
