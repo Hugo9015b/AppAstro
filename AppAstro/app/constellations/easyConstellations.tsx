@@ -9,7 +9,6 @@ import ButtonViewer from "@/components/ButtonViewer";
 import { useQuizData } from "@/hooks/useQuizData";
 
 const BackgroundImage: ImageSource = require('@/assets/images/title-background.jpg')
-const QuizImage: ImageSource = require("@/assets/images/constellation.png");
 
 export default function EasyConstellationsScreen() {
     const { min = "1", max = "1" } = useLocalSearchParams();
@@ -49,7 +48,11 @@ export default function EasyConstellationsScreen() {
                 <Text style={styles.titleText}>Easy Constellations</Text>
                 <Text style={styles.titleTextBoxes}>From {minLevel} up to {maxLevel} constellations</Text>
                 <View style={styles.quizContainer}>
-                    <ImageViewer imgSource={QuizImage} style={styles.quizImage} imageMode="cover" />
+                    <ImageViewer
+                        imgSource={currentQuestion.image as ImageSource}
+                        style={styles.quizImage}
+                        imageMode="cover"
+                    />
                     <View style={styles.buttonsContainer}>
                         {currentQuestion.options.map((option) => (
                             <ButtonViewer
