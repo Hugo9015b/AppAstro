@@ -35,7 +35,7 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# react exmaple project
+# react example project
 app-example
 
 # firebase
